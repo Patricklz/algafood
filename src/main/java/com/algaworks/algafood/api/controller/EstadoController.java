@@ -19,7 +19,7 @@ public class EstadoController {
 	
 	@GetMapping
 	public List<EstadoDTO> listar() {
-		var estados = estadoRepository.listar();
+		var estados = estadoRepository.findAll();
 		List<EstadoDTO> retorno = new ArrayList<EstadoDTO>();
 		
 		for (var estado : estados) {
