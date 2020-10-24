@@ -11,8 +11,8 @@
 	<groupId>com.algaworks</groupId>
 	<artifactId>algafood-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>algafood-api</name>
-	<description>API de delivery de comida</description>
+	<name>tcs-api</name>
+	<description>API loja</description>
 
 	<properties>
 		<java.version>14</java.version>
