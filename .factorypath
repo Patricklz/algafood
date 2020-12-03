@@ -63,4 +63,6 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/postgresql/postgresql/42.2.16/postgresql-42.2.16.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/checkerframework/checker-qual/3.5.0/checker-qual-3.5.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/projectlombok/lombok/1.18.12/lombok-1.18.12.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/flywaydb/flyway-core/6.4.4/flyway-core-6.4.4.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/mysql/mysql-connector-java/8.0.21/mysql-connector-java-8.0.21.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
