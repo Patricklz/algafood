@@ -1,13 +1,14 @@
 package com.algaworks.algafood.api.exceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @JsonInclude(Include.NON_NULL)
 @Getter
@@ -21,5 +22,21 @@ public class ApiError {
 	
 	private String userMessage;
 	private LocalDateTime timestamp;
+	
+	private List<Field> fields;
 
+	
+	
+	@Setter
+	@Getter
+	@Builder
+	public static class Field {
+		
+		private String name;
+		private String userMessage;
+	}
+
+	
 }
+
+
