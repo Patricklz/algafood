@@ -15,7 +15,7 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 
 @SpringBootTest
-class CadastroCozinhaIntegrationTests {
+class CadastroCozinhaIT {
 
 	@Autowired
 	CadastroCozinhaService cadastroCozinha;
@@ -49,22 +49,12 @@ class CadastroCozinhaIntegrationTests {
 		assertThrows(EntidadeEmUsoException.class, () -> {
 			cadastroCozinha.excluir(1L);
 			
-			
-			
-//			Cozinha novaCozinha = new Cozinha();
-//			novaCozinha.setId(1L);
-//			novaCozinha.setNome("teste-nome");
-//
-//			cadastroCozinha.excluir(novaCozinha.getId());
 
 		});
 	}
 	
 	public void deveFalhar_quandoExcluirCozinhaInexistente() {
 		assertThrows(CozinhaNaoEncontradaException.class, () -> {
-//			Cozinha novaCozinha = new Cozinha();
-//			novaCozinha.setId(1L);
-			
 			cadastroCozinha.excluir(100L);
 			
 		});
