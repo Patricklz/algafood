@@ -45,7 +45,7 @@ class CadastroCozinhaApiIT {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
-		
+		jsonCorretoCozinhaChinesa = ResourceUtils.getContentFromResource("/json/correto/cozinha.json");
 		databaseCleaner.clearTables();
 		prepararDados();
 	}
@@ -109,7 +109,7 @@ class CadastroCozinhaApiIT {
 	
 	private void prepararDados() {
 		
-		jsonCorretoCozinhaChinesa = ResourceUtils.getContentFromResource("/json/objeto.json");
+		
 		
 		cozinhaTailandesa = new Cozinha();
 		cozinhaTailandesa.setNome("Tailandesa");

@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.exceptionHandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,16 +111,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		ApiError apiError = createApiErrorBuilder(status, apiErrorType, detail).userMessage(userMessage).objects(ApiErrorfields).build();
 		
-		return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
-				
-				
+		return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);		
 				
 	}
 	
 
-	
-
-	
 	
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
@@ -169,8 +164,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpStatus status, WebRequest request) {
 		ApiErrorType apiErrorType = ApiErrorType.MENSAGEM_INCOMPREENSIVEL;
 
-
-		
 		String path = joinPath(ex.getPath());
 
 		String detail = String.format("A propriedade '%s' não é uma propriedade válida para a requisição.", path);
@@ -262,9 +255,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpStatus status, WebRequest request) {
 
 		if (body == null) {
-			body = ApiError.builder().title(status.getReasonPhrase()).status(status.value()).userMessage(MSG_ERRO_GENERICO_USER).build();
+			body = ApiError.builder().timestamp(OffsetDateTime.now()).title(status.getReasonPhrase()).status(status.value()).userMessage(MSG_ERRO_GENERICO_USER).build();
 		} else if (body instanceof String) {
-			body = ApiError.builder().title((String) body).status(status.value()).userMessage(MSG_ERRO_GENERICO_USER).build();
+			body = ApiError.builder().timestamp(OffsetDateTime.now()).title((String) body).status(status.value()).userMessage(MSG_ERRO_GENERICO_USER).build();
 		}
 
 		return super.handleExceptionInternal(ex, body, headers, status, request);
@@ -274,7 +267,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			String detail) {
 		
 		return ApiError.builder().status(status.value()).type(apiErrorType.getUri()).title(apiErrorType.getTitle())
-				.detail(detail).timestamp(LocalDateTime.now());
+				.detail(detail).timestamp(OffsetDateTime.now());
 	}
 
 	private String joinPath(List<Reference> references) {

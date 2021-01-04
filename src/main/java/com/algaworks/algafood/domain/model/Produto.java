@@ -37,7 +37,6 @@ public class Produto {
 	@Column(nullable = false)
 	private boolean ativo;
 	
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Restaurante restaurante;
 
