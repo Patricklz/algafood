@@ -1,24 +1,15 @@
 package com.algaworks.algafood.api.controller;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.server.ServletServerHttpRequest;
-import org.springframework.util.ReflectionUtils;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,18 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.api.assembler.RestauranteDTOAssembler;
-import com.algaworks.algafood.api.assembler.RestauranteDTODissembler;
+import com.algaworks.algafood.api.assembler.GenericDTOAssembler;
+import com.algaworks.algafood.api.assembler.GenericDTODissembler;
 import com.algaworks.algafood.api.model.DTO.RestauranteDTO;
 import com.algaworks.algafood.api.model.DTO.RestauranteDTOInput;
-import com.algaworks.algafood.core.validation.ValidacaoException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping(value = "/restaurantes", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,14 +42,14 @@ public class RestauranteController {
 	private SmartValidator validator;
 	
 	@Autowired
-	private RestauranteDTOAssembler restauranteDTOAssembler;
+	private GenericDTOAssembler<Restaurante, RestauranteDTO> genericDTOAssembler;
 	
 	@Autowired
-	private RestauranteDTODissembler restauranteDTODissembler;
+	private GenericDTODissembler<RestauranteDTOInput, Restaurante> genericDTODissembler;
 
 	@GetMapping
 	public List<RestauranteDTO> listar() {
-		return restauranteDTOAssembler.toCollectDTO(restauranteRepository.findAll());
+		return genericDTOAssembler.toCollectDTO(restauranteRepository.findAll(), RestauranteDTO.class);
 	}
 
 	@GetMapping("/{id}")
@@ -69,7 +57,7 @@ public class RestauranteController {
 		
 		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(id);
 		
-		return restauranteDTOAssembler.toDTO(restaurante);
+		return genericDTOAssembler.toDTO(restaurante, RestauranteDTO.class);
 
 	}
 
@@ -78,9 +66,9 @@ public class RestauranteController {
 	public RestauranteDTO adicionar(@RequestBody @Valid RestauranteDTOInput restauranteDTOInput) {
 		try {
 			
-			Restaurante restaurante = restauranteDTODissembler.DTOToRestaurante(restauranteDTOInput);
+			Restaurante restaurante = genericDTODissembler.dtoToModel(restauranteDTOInput, Restaurante.class);
 			
-			return restauranteDTOAssembler.toDTO(cadastroRestauranteService.salvar(restaurante));
+			return genericDTOAssembler.toDTO(cadastroRestauranteService.salvar(restaurante), RestauranteDTO.class);
 		}catch(CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
@@ -90,16 +78,16 @@ public class RestauranteController {
 
 	@PutMapping("/{id}")
 	public RestauranteDTO atualizar(@PathVariable Long id, @RequestBody @Valid RestauranteDTOInput restauranteDTOInput) {
-		
+		try {
 			Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(id);
 				
 			
-			restauranteDTODissembler.DTOToRestaurante(restauranteDTOInput, restauranteAtual);
+			genericDTODissembler.dtoToModel(restauranteDTOInput, Restaurante.class);
+			restauranteAtual =cadastroRestauranteService.salvar(restauranteAtual);
 			
 			
 			
-			try {
-			return restauranteDTOAssembler.toDTO(cadastroRestauranteService.salvar(restauranteAtual));
+			return genericDTOAssembler.toDTO(restauranteAtual, RestauranteDTO.class);
 			}catch(CozinhaNaoEncontradaException e) {
 				throw new NegocioException(e.getMessage(), e);
 			}

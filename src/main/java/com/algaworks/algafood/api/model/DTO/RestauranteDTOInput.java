@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 public class RestauranteDTOInput {
 	
+
 	@NotBlank
 	private String nome;
 	
