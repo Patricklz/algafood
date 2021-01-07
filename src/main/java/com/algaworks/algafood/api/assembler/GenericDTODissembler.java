@@ -1,8 +1,5 @@
 package com.algaworks.algafood.api.assembler;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,8 +17,6 @@ public class GenericDTODissembler<T, S> {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	@PersistenceContext
-	private EntityManager manager;
 	
 	public S dtoToModel(T inputOrigin, Class<S> type) {
 		return modelMapper.map(inputOrigin, type);

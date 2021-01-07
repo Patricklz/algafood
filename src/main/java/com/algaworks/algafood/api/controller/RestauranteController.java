@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.api.assembler.GenericDTOAssembler;
-import com.algaworks.algafood.api.assembler.GenericDTODissembler;
+import com.algaworks.algafood.api.assembler.RestauranteInputDissembler;
+import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.model.DTO.RestauranteDTO;
 import com.algaworks.algafood.api.model.DTO.RestauranteDTOInput;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
@@ -39,17 +38,16 @@ public class RestauranteController {
 	private CadastroRestauranteService cadastroRestauranteService;
 	
 	@Autowired
-	private SmartValidator validator;
+	private RestauranteInputDissembler restauranteInputDissembler;
 	
 	@Autowired
-	private GenericDTOAssembler<Restaurante, RestauranteDTO> genericDTOAssembler;
+	private RestauranteModelAssembler restauranteModelAssembler;
 	
-	@Autowired
-	private GenericDTODissembler<RestauranteDTOInput, Restaurante> genericDTODissembler;
+
 
 	@GetMapping
 	public List<RestauranteDTO> listar() {
-		return genericDTOAssembler.toCollectDTO(restauranteRepository.findAll(), RestauranteDTO.class);
+		return restauranteModelAssembler.toCollectDTO(restauranteRepository.findAll());
 	}
 
 	@GetMapping("/{id}")
@@ -57,7 +55,7 @@ public class RestauranteController {
 		
 		Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(id);
 		
-		return genericDTOAssembler.toDTO(restaurante, RestauranteDTO.class);
+		return restauranteModelAssembler.toDTO(restaurante);
 
 	}
 
@@ -66,9 +64,9 @@ public class RestauranteController {
 	public RestauranteDTO adicionar(@RequestBody @Valid RestauranteDTOInput restauranteDTOInput) {
 		try {
 			
-			Restaurante restaurante = genericDTODissembler.dtoToModel(restauranteDTOInput, Restaurante.class);
+			Restaurante restaurante = restauranteInputDissembler.dtoToModel(restauranteDTOInput);
 			
-			return genericDTOAssembler.toDTO(cadastroRestauranteService.salvar(restaurante), RestauranteDTO.class);
+			return restauranteModelAssembler.toDTO(cadastroRestauranteService.salvar(restaurante));
 		}catch(CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);
 		}
@@ -81,13 +79,13 @@ public class RestauranteController {
 		try {
 			Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(id);
 				
+
+			restauranteInputDissembler.copyDtoToModel(restauranteDTOInput, restauranteAtual);
+			restauranteAtual = cadastroRestauranteService.salvar(restauranteAtual);
 			
-			genericDTODissembler.dtoToModel(restauranteDTOInput, Restaurante.class);
-			restauranteAtual =cadastroRestauranteService.salvar(restauranteAtual);
 			
 			
-			
-			return genericDTOAssembler.toDTO(restauranteAtual, RestauranteDTO.class);
+			return restauranteModelAssembler.toDTO(restauranteAtual);
 			}catch(CozinhaNaoEncontradaException e) {
 				throw new NegocioException(e.getMessage(), e);
 			}
