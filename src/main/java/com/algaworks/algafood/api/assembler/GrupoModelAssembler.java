@@ -8,23 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.algaworks.algafood.api.model.DTO.CozinhaDTO;
+import com.algaworks.algafood.api.model.DTO.GrupoDTO;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.Grupo;
 
 @Component
-public class CozinhaDTOAssembler {
+public class GrupoModelAssembler {
 	
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	public CozinhaDTO toDto(Cozinha cozinha) {
+	public GrupoDTO toDTO(Grupo grupo) {
 		
-		return modelMapper.map(cozinha, CozinhaDTO.class);
+		return modelMapper.map(grupo, GrupoDTO.class);
 		
 	}
 	
-	public List<CozinhaDTO> toCollectDTO(List<Cozinha> cozinhas) {
+	public List<GrupoDTO> toCollectDTO(List<Grupo> grupos) {
 		
-		return cozinhas.stream().map(cozinha -> modelMapper.map(cozinha, CozinhaDTO.class)).collect(Collectors.toList());
+		return grupos.stream().map(grupo -> modelMapper.map(grupo, GrupoDTO.class)).collect(Collectors.toList());
 	}
 
 }

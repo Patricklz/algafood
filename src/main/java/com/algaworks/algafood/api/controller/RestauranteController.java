@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.api.assembler.RestauranteInputDissembler;
+import com.algaworks.algafood.api.assembler.RestauranteInputDisassembler;
 import com.algaworks.algafood.api.assembler.RestauranteModelAssembler;
 import com.algaworks.algafood.api.model.DTO.RestauranteDTO;
-import com.algaworks.algafood.api.model.DTO.RestauranteDTOInput;
+import com.algaworks.algafood.api.model.input.RestauranteDTOInput;
+import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Restaurante;
@@ -38,7 +39,7 @@ public class RestauranteController {
 	private CadastroRestauranteService cadastroRestauranteService;
 	
 	@Autowired
-	private RestauranteInputDissembler restauranteInputDissembler;
+	private RestauranteInputDisassembler restauranteInputDissembler;
 	
 	@Autowired
 	private RestauranteModelAssembler restauranteModelAssembler;
@@ -83,14 +84,24 @@ public class RestauranteController {
 			restauranteInputDissembler.copyDtoToModel(restauranteDTOInput, restauranteAtual);
 			restauranteAtual = cadastroRestauranteService.salvar(restauranteAtual);
 			
-			
-			
 			return restauranteModelAssembler.toDTO(restauranteAtual);
-			}catch(CozinhaNaoEncontradaException e) {
+			}catch(CozinhaNaoEncontradaException | CidadeNaoEncontradaException e) {
 				throw new NegocioException(e.getMessage(), e);
 			}
-			
+			 
 		
+	}
+	
+	@PutMapping("/{id}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativar(@PathVariable Long id) {
+		cadastroRestauranteService.ativar(id);
+	}
+	
+	@DeleteMapping("/{id}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativar(@PathVariable Long id) {
+		cadastroRestauranteService.inativar(id);
 	}
 	
 //	@PatchMapping("/{id}")

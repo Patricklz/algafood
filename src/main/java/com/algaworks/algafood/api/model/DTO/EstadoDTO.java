@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.controller;
+package com.algaworks.algafood.api.model.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,8 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EstadoDTO {
-	
-	Long id;
-	String nome;
+
+
+	private Long id;
+	private String nome;
 
 }

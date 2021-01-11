@@ -41,8 +41,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Restaurante {
 
-	@Valid
-	@NotNull
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,23 +51,22 @@ public class Restaurante {
 	@Column(nullable = false)
 	private String nome;
 	
-	@NotNull
-	@PositiveOrZero
+
 	//@TaxaFrete
 	//@Multiplo(numero = 5)
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
 	
 
-	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.CozinhaGroup.class)
-	@NotNull
+
 	@ManyToOne //(fetch = FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
 	
 	@Embedded
 	private Endereco endereco;
+	
+	private Boolean ativo = true;
 	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
@@ -88,6 +85,14 @@ public class Restaurante {
 	@Cascade(CascadeType.DELETE)
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos;
+	
+	public void ativar() {
+		setAtivo(true);
+	}
+	
+	public void inativar() {
+		setAtivo(false);
+	}
 	
 	
 //	@ManyToMany

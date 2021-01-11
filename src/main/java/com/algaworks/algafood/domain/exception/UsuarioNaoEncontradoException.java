@@ -4,16 +4,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class CozinhaNaoEncontradaException extends EntidadeNaoEncontradaException{
+public class UsuarioNaoEncontradoException extends EntidadeNaoEncontradaException{
 	
 	private static final long serialVersionUID = 1L;
 	
-	public CozinhaNaoEncontradaException(String mensagem) {
+	public UsuarioNaoEncontradoException(String mensagem) {
 		super(mensagem);
 	}
 	
-	public CozinhaNaoEncontradaException(Long id) {
-		this(String.format("Não existe um cadastro de cozinha com o código %d", id));
+	public UsuarioNaoEncontradoException(Long id) {
+		this(String.format("Não existe um cadastro de usuário com o código %d", id));
 	}
 
 }

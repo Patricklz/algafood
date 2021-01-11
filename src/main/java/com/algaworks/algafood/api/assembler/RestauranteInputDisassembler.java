@@ -7,11 +7,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.algaworks.algafood.api.model.DTO.RestauranteDTOInput;
+import com.algaworks.algafood.api.model.input.RestauranteDTOInput;
+import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Restaurante;
 
 @Component
-public class RestauranteInputDissembler {
+public class RestauranteInputDisassembler {
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -28,6 +29,12 @@ public class RestauranteInputDissembler {
 		//restaurante.setCozinha(new Cozinha());
 		
 		entityManager.detach(restaurante.getCozinha());
+		
+		if(restaurante.getEndereco() != null) {
+		//entityManager.detach(restaurante.getEndereco().getCidade().getEstado());
+
+		restaurante.getEndereco().setCidade(new Cidade());
+		}
 		
 		modelMapper.map(restauranteDTOInput, restaurante);
 	}

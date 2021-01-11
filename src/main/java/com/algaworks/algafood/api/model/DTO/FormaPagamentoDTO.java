@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CozinhaDTO {
+public class FormaPagamentoDTO {
 	
+
 	private Long id;
-	private String nome;
-	
+	private String descricao;
+
 }
