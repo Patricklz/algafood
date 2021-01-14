@@ -23,6 +23,7 @@ import com.algaworks.algafood.api.model.DTO.UsuarioDTO;
 import com.algaworks.algafood.api.model.input.GrupoDTOInput;
 import com.algaworks.algafood.api.model.input.UsuarioCadastrarDTOInput;
 import com.algaworks.algafood.api.model.input.UsuarioEmailDTOInput;
+import com.algaworks.algafood.api.model.input.UsuarioSenhaDTOInput;
 import com.algaworks.algafood.domain.exception.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.model.Grupo;
@@ -89,9 +90,17 @@ public class UsuarioController {
 		}
 	}
 	
-//	@DeleteMapping("/{id}")
-//	@ResponseStatus(HttpStatus.NO_CONTENT)
-//	public void remover(@PathVariable Long id) {
-//		cadastroGrupoService.excluir(id);	
-//	}
+	@PutMapping("/{id}/senha")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void alterarSenha(@PathVariable Long id, @RequestBody @Valid UsuarioSenhaDTOInput usuarioSenhaDTOInput) {
+			
+			cadastroUsuarioService.alterarSenha(id, usuarioSenhaDTOInput);
+
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable Long id) {
+		cadastroUsuarioService.excluir(id);	
+	}
 }
