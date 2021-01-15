@@ -25,7 +25,7 @@ public class CadastroUsuarioService {
 	public Usuario salvar(Usuario usuario) {
 		usuarioRepository.detach(usuario);
 		
-		Optional<Usuario> usuarioExistente = usuarioRepository.findeByEmail(usuario.getEmail());
+		Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
 		
 		if(usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
 			throw new NegocioException(String.format("Já existe um usuário cadastrado com o e-mail", usuario.getEmail()));
