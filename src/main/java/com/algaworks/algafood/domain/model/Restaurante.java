@@ -63,6 +63,8 @@ public class Restaurante {
 	
 	private Boolean ativo = true;
 	
+	private Boolean aberto = false;
+	
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private OffsetDateTime dataCadastro;
