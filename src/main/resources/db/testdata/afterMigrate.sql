@@ -84,8 +84,9 @@ insert into usuario (nome, email, senha, data_cadastro) values ('Mariana Fialho'
 insert into usuario (nome, email, senha, data_cadastro) values ('Dixie Graves', 'dixie@email.com', 'dixie123', utc_timestamp);
 
 
-
-
+insert into usuario_grupo (usuario_id, grupo_id) values (1,1), (1,2), (1,3);
+insert into usuario_grupo (usuario_id, grupo_id) values (2,1), (2,2);
+insert into usuario_grupo (usuario_id, grupo_id) values (3,3);
 
 
 
