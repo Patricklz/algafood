@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.algaworks.algafood.api.model.DTO.EnderecoDTO;
-import com.algaworks.algafood.api.model.input.UsuarioSenhaDTOInput;
 import com.algaworks.algafood.domain.model.Endereco;
-import com.algaworks.algafood.domain.model.Usuario;
 
 @Configuration
 public class ModelMapperConfig {

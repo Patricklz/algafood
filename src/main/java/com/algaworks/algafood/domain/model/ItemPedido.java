@@ -24,7 +24,7 @@ public class ItemPedido {
 	
 	private Integer quantidade;
 	
-	private BigDecimal precounitario;
+	private BigDecimal precoUnitario;
 	
 	private BigDecimal precoTotal;
 	
