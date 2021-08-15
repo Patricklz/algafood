@@ -78,7 +78,7 @@ insert into grupo (nome) values ('Gerente'), ('Vendedor'), ('Secretária'), ('Ca
 
 insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2,2);
 
-insert into usuario (nome, email, senha, data_cadastro) values ('Patrick Luiz', 'patrick@email.com', 'teste123', utc_timestamp);
+insert into usuario (nome, email, senha, data_cadastro) values ('Patrick Luiz', 'patrickluiz@gmail.com', 'teste123', utc_timestamp);
 insert into usuario (nome, email, senha, data_cadastro) values ('Mariana Fialho', 'mari@email.com', 'mari123', utc_timestamp);
 insert into usuario (nome, email, senha, data_cadastro) values ('Dixie Graves', 'dixie@email.com', 'dixie123', utc_timestamp);
 
